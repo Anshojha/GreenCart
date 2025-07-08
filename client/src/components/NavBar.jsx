@@ -71,7 +71,7 @@ const NavBar = () => {
         ) : (
           <div className="relative group">
             <img src={assets.profile_icon} className="w-10" alt="" />
-            <ul className="group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 w-30 rounded-md text-sm z-40">
+            <ul className=" hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 w-30 rounded-md text-sm z-40">
               <li
                 onClick={() => navigate("my-orders")}
                 className="p-1.5 pl-3 hover:bg-primary/10 cursor-pointer"

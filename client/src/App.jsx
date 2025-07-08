@@ -9,6 +9,8 @@ import Login from './components/Login'
 import AllProduct from './pages/AllProduct.jsx'
 import ProductCategories from './pages/ProductCategories.jsx'
 import ProductDetails from './pages/ProductDetails.jsx'
+import Cart from './pages/Cart.jsx'
+import AddAdderss from './pages/AddAdderss.jsx'
 
 
 
@@ -26,6 +28,8 @@ const App = () => {
             <Route path='/products' element = {<AllProduct/>}/>
             <Route path='/products/:category' element = {<ProductCategories/>}/>
             <Route path='/products/:category/:id' element = {<ProductDetails/>}/>
+            <Route path='/cart' element = {<Cart/>}/>
+            <Route path='/add-address' element = {<AddAdderss/>}/>
           </Routes>
         </div>
        {!isSellerPath && <Footer/>}
