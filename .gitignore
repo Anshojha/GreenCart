@@ -1,0 +1,87 @@
+# =====================
+# Node.js / Express
+# =====================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+debug.log
+
+# Build files (server or transpiled)
+build/
+dist/
+tmp/
+temp/
+
+# Database dump files
+*.mongodb
+*.mongo
+*.sql
+dump/
+
+# PM2 process manager logs
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# =====================
+# React Frontend
+# =====================
+# React build output
+frontend/build/
+frontend/node_modules/
+
+# Misc
+*.tgz
+*.bak
+*.swp
+*.swo
+
+# =====================
+# IDEs / OS
+# =====================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# =====================
+# Testing
+# =====================
+coverage/
+.nyc_output/
+jest.config.js
+
+# =====================
+# TypeScript (if used)
+# =====================
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# =====================
+# Git hooks / CI/CD
+# =====================
+.husky/
+*.tgz
+*.lock-wscript
+*.log
+
+# =====================
+# Optional Lock Files (pick one only)
+# Uncomment the one you are **NOT** using
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
