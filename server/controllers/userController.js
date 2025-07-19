@@ -81,19 +81,53 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
+    console.log(token);
 
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-      maxAge: 7 * 24 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
-
     return res
       .status(200)
-      .json({ success: true, user: { email: user.email, name: user.name } });
+      .json({ success: true, user});  
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// middleware to check user authentication -> api/user/auth-user
+
+export const isAuth = async (req, res) => {
+  try {
+    const userId = req.userId; // ✅ not from req.body
+    const user = await User.findById(userId).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    return res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// middleware to check user authentication -> api/user/
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    });
+
+    return res.status(200).json({ success: true, message: "Logged out" });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({ success: false, message: error.message });
   }
 };
