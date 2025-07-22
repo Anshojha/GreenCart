@@ -15,8 +15,8 @@ export const sellerLogin = async (req, res) => {
       });
       res.cookie("sellerToken", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+        secure: false, // must be HTTPS
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
@@ -35,14 +35,12 @@ export const sellerLogin = async (req, res) => {
 // Seller isAuth -> /api/seller/is-auth
 export const isSellerAuth = async (req, res) => {
   try {
-    return res.status(200).json({ success: true, user });
+    return res.status(200).json({ success: true, user : req.user});
   } catch (error) {
     console.log(error.message);
     return res.status(400).json({ success: false, message: error.message });
   }
 };
-
-
 
 // Seller -> Logout -> /api/seller/logout
 
