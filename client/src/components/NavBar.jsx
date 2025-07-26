@@ -17,21 +17,26 @@ const NavBar = () => {
     getCartAmount,
     axios
   } = useAppContext();
-  const logout = async () => {
-    try {
-      const { data } = await axios.get('/api/user/logout')
-      if(data.success) {
-        toast.success(data.message)
-        setUser(null);
-        navigate("/");
-      }
-      else {
-        toast.error(data.message)
-      }
-    } catch (error) {
-      toast.error(error.message)
+ const logout = async () => {
+  console.log("I am clicked");
+  try {
+    const { data } = await axios.get('/api/user/logout', {
+      withCredentials: true, // ✅ send cookies!
+    });
+
+    console.log("DATA", data);
+
+    if (data.success) {
+      toast.success(data.message);
+      setUser(null);
+      navigate("/");
+    } else {
+      toast.error(data.message);
     }
-  };
+  } catch (error) {
+    toast.error("Custom error: " + error.message);
+  }
+};
 
   useEffect(() => {
     if (searchQuery.length > 0) {

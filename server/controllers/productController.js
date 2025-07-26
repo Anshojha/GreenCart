@@ -42,7 +42,7 @@ export const productById = async (req, res) => {
     if (!product) {
       return res
         .status(400)
-        .json({ seccess: false, message: "Product not found" });
+        .json({ success: false, message: "Product not found" });
     }
 
     res.status(200).json({ success: true, product });
@@ -65,3 +65,4 @@ export const changeStock = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
+
