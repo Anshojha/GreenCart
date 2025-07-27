@@ -43,7 +43,8 @@ export const placeOrderCOD = async (req, res) => {
 
 export const getUserOrder = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const  userId  = req.userId;
+    console.log("USERID", userId)
     const orders = await Order.find({
       userId,
       $or: [{ paymentType: "COD" }, { isPaid: true }],
@@ -51,7 +52,7 @@ export const getUserOrder = async (req, res) => {
       .populate("items.product address")
       .sort({ createdAt: -1 });
 
-    res.status(200).status({ success: true, orders });
+    return res.status(200).json({ success: true, orders }); 
   } catch (error) {
     console.log(error.message);
     return res.status(403).json({ success: false, message: error.message });

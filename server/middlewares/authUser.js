@@ -12,10 +12,10 @@ export const authUser = async (req, res, next) => {
 
   try {
     const tokenDecode = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(tokenDecode.id)
+    // console.log(tokenDecode.id)
     if (tokenDecode.id) {
       req.userId = tokenDecode.id; // ✅ Store in req.userId, not req.body
-      console.log("Decoded userId:", req.userId);
+      // console.log("Decoded userId:", req.userId);
       next();
     } else {
       return res

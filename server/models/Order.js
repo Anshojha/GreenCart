@@ -9,10 +9,11 @@ const orderShema = new mongoose.Schema({
     },
   ],
   amount: { type: Number, required: true },
+  paymentType: { type: String, enum: ["COD", "ONLINE"], default: "COD" },
   address: { type: String, required: true, ref: "address" },
   status: { type: String, default: "Order placed" },
   isPaid: { type: Boolean, required: true, default: false },
-});
+},{timestamps : true});
 
 const Order = mongoose.model.order || mongoose.model("order", orderShema);
 

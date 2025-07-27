@@ -1,6 +1,6 @@
-import React, { use, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
-import { assets, dummyAddress } from "../assets/assets";
+import { assets } from "../assets/assets";
 import toast from "react-hot-toast";
 
 const Cart = () => {
@@ -15,6 +15,7 @@ const Cart = () => {
     getCartAmount,
     axios,
     user,
+    setCartItems,
   } = useAppContext();
   const [cartArray, setCartArray] = useState([]);
   const [addreess, setAddress] = useState([]);
@@ -49,7 +50,34 @@ const Cart = () => {
     }
   };
 
-  const placeOrder = async () => {};
+  const placeOrder = async () => {
+    try {
+      if (!selectedAddress) {
+        return toast.error("Select an address first");
+      }
+
+      if (paymentOption === "COD") {
+        const { data } = await axios.post("/api/order/cod", {
+          userId: user._id,
+          items: cartArray.map((item) => ({
+            product: item._id,
+            quantity: item.quantity,
+          })),
+          address: selectedAddress._id,
+        });
+
+        if (data.success) {
+          toast.success(data.message);
+          setCartItems({});
+          navigate("my-orders");
+        } else {
+          toast.error(data.message);
+        }
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   useEffect(() => {
     if (products.length > 0 && cartItems) {
@@ -181,7 +209,7 @@ const Cart = () => {
               <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
                 {addreess.map((adress, index) => (
                   <p
-                  key={index}
+                    key={index}
                     onClick={() => {
                       setSelectedAddress(adress);
                       setShowAddress(false);
