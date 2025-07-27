@@ -1,6 +1,7 @@
 import React, { use, useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { assets, dummyAddress } from "../assets/assets";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const {
@@ -12,11 +13,13 @@ const Cart = () => {
     updateCartItem,
     navigate,
     getCartAmount,
+    axios,
+    user,
   } = useAppContext();
   const [cartArray, setCartArray] = useState([]);
-  const [addreess, setAddress] = useState(dummyAddress);
+  const [addreess, setAddress] = useState([]);
   const [showAddress, setShowAddress] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState(dummyAddress[0]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const [paymentOption, setPaymentOption] = useState("COD");
 
   const getCart = () => {
@@ -29,6 +32,23 @@ const Cart = () => {
     setCartArray(tempArray);
   };
 
+  const getUserAddress = async () => {
+    try {
+      const { data } = await axios.get("/api/address/get");
+      console.log("Address->" + data);
+      if (data.success) {
+        setAddress(data.address);
+        if (data.address.length > 0) {
+          setSelectedAddress(data.address[0]);
+        }
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   const placeOrder = async () => {};
 
   useEffect(() => {
@@ -36,6 +56,12 @@ const Cart = () => {
       getCart();
     }
   }, [products, cartItems]);
+
+  useEffect(() => {
+    if (user) {
+      getUserAddress();
+    }
+  }, [user]);
 
   return products.length > 0 && cartItems ? (
     <div className="flex flex-col md:flex-row mt-16">
@@ -155,6 +181,7 @@ const Cart = () => {
               <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
                 {addreess.map((adress, index) => (
                   <p
+                  key={index}
                     onClick={() => {
                       setSelectedAddress(adress);
                       setShowAddress(false);
